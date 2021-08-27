@@ -41,6 +41,7 @@ export { previewTypes };
  * @property {string} languageCode
  * @property {string} languageDirection Either "ltr" or "rtl", or an empty string if undefined.
  * @property {{source: string, width: number, height: number}|undefined} thumbnail
+ * @property {{title: string}[]} categories
  * @property {number} pageId Currently not used by any known popup type.
  *
  * @global
@@ -67,6 +68,7 @@ export { previewTypes };
  * @param {string} type
  * @param {{source: string, width: number, height: number}|undefined} [thumbnail]
  * @param {number} [pageId]
+ * @param {{title: string}[]|undefined} categories
  * @return {PagePreviewModel}
  */
 export function createModel(
@@ -77,7 +79,8 @@ export function createModel(
 	extract,
 	type,
 	thumbnail,
-	pageId
+	pageId,
+	categories
 ) {
 	const processedExtract = processExtract( extract ),
 		previewType = getPagePreviewType( type, processedExtract );
@@ -90,7 +93,8 @@ export function createModel(
 		extract: processedExtract,
 		type: previewType,
 		thumbnail,
-		pageId
+		pageId,
+		categories: categories || []
 	};
 }
 

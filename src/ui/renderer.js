@@ -12,6 +12,7 @@ import { renderPagePreview } from './templates/pagePreview/pagePreview';
 import { renderPagePreviewWithButton } from './templates/pagePreviewWithButton/pagePreviewWithButton';
 import { renderPagePreviewWithTitle } from './templates/pagePreviewWithTitle/pagePreviewWithTitle';
 import { renderPagePreviewWithImage } from './templates/pagePreviewWithImage/pagePreviewWithImage';
+import { renderPagePreviewWithCategories } from './templates/pagePreviewWithCategories/pagePreviewWithCategories';
 
 const mw = mediaWiki,
 	$ = jQuery,
@@ -212,6 +213,21 @@ function createPagePreviewWithImage( model ) {
 		el: renderPagePreviewWithImage( model, thumbnail ),
 		hasThumbnail,
 		thumbnail,
+		isTall: false
+	};
+}
+
+/**
+ * Creates an instance of the DTO backing a preview with categories.
+ *
+ * @param {ext.popups.PagePreviewModel} model
+ * @return {ext.popups.Preview}
+ */
+function createPagePreviewWithCategories( model ) {
+	return {
+		el: renderPagePreviewWithCategories( model, null ),
+		hasThumbnail: false,
+		thumbnail: false,
 		isTall: false
 	};
 }
