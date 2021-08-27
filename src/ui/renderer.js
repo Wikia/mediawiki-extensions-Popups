@@ -138,7 +138,19 @@ export function render( model ) {
 export function createPreviewWithType( model ) {
 	switch ( model.type ) {
 		case previewTypes.TYPE_PAGE:
-			return createPagePreview( model );
+			switch (window.popupType) {
+				case 2:
+					return createPagePreviewWithButton( model );
+				case 3:
+					return createPagePreviewWithTitle( model );
+				case 4:
+					return createPagePreviewWithImage( model );
+				case 5:
+					return createPagePreviewWithCategories( model );
+				case 1:
+				default:
+					return createPagePreview( model );
+			}
 		case previewTypes.TYPE_DISAMBIGUATION:
 			return createDisambiguationPreview( model );
 		case previewTypes.TYPE_REFERENCE:
