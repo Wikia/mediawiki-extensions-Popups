@@ -19,15 +19,18 @@ export function renderPagePreview(
 		languageCode = escapeHTML( model.languageCode ),
 		languageDirection = escapeHTML( model.languageDirection );
 
+	// show settings only for wikis that have popups extension explicitly enabled
+	const shouldShowSettings = window.wgEnablePopups;
+
 	const $el = renderPopup( model.type,
 		`
 			${ thumbnail ? `<a href='${ url }' class='mwe-popups-discreet'></a>` : '' }
 			<a dir='${ languageDirection }' lang='${ languageCode }' class='mwe-popups-extract' href='${ url }'></a>
-			<footer>
+			${ shouldShowSettings ? `<footer>
 				<a class='mwe-popups-settings-icon'>
 					<span class="mw-ui-icon mw-ui-icon-element mw-ui-icon-popups-settings"></span>
 				</a>
-			</footer>
+			</footer>` : ''}
 		`
 	);
 
