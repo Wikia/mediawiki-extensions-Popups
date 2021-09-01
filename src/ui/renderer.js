@@ -144,13 +144,27 @@ export function render( model ) {
 export function createPreviewWithType( model ) {
 	switch ( model.type ) {
 		case previewTypes.TYPE_PAGE:
-			return createPagePreview( model );
+			return getPagePreview()(model);
 		case previewTypes.TYPE_DISAMBIGUATION:
 			return createDisambiguationPreview( model );
 		case previewTypes.TYPE_REFERENCE:
 			return createReferencePreview( model );
 		default:
 			return createEmptyPreview( model );
+	}
+}
+
+function getPagePreview() {
+	switch ( window.pathfinderPopupsExtVariant ) {
+		case 'popups-variant-2':
+			return createPagePreviewWithButton;
+		case 'popups-variant-3':
+			return createPagePreviewWithTitle;
+		case 'popups-variant-4':
+			return createPagePreviewWithImage;
+		case 'popups-variant-1':
+		default:
+			return createPagePreview;
 	}
 }
 
