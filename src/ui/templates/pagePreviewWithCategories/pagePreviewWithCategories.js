@@ -1,5 +1,6 @@
 import {renderPagePreview} from '../pagePreview/pagePreview';
 import {escapeHTML} from "../templateUtil";
+import {renderPagePreviewWithTitle} from "../pagePreviewWithTitle/pagePreviewWithTitle";
 
 const mw = mediaWiki;
 
@@ -12,7 +13,7 @@ export function renderPagePreviewWithCategories(model, thumbnail) {
 
 	const categories = model.categories;
 	if (categories.length === 0) {
-		return $el;
+		return renderPagePreviewWithTitle(model, thumbnail);
 	}
 
 	const $categoriesList = $('<ul></ul>');
