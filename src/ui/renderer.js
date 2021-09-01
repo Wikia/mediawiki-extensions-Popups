@@ -13,8 +13,7 @@ import { renderPagePreviewWithButton } from './templates/pagePreviewWithButton/p
 import { renderPagePreviewWithTitle } from './templates/pagePreviewWithTitle/pagePreviewWithTitle';
 import { renderPagePreviewWithImage } from './templates/pagePreviewWithImage/pagePreviewWithImage';
 import { renderPagePreviewWithCategories } from './templates/pagePreviewWithCategories/pagePreviewWithCategories';
-import * as trackExperimentsInteractions from "../trackExperimentsInteractions";
-import {trackLinkClick} from "../trackExperimentsInteractions";
+import * as trackExperimentsInteractions from '../trackExperimentsInteractions';
 
 const mw = mediaWiki,
 	$ = jQuery,
@@ -163,6 +162,8 @@ function getPagePreview() {
 			return createPagePreviewWithTitle;
 		case 'popups-variant-4':
 			return createPagePreviewWithImage;
+		case 'popups-variant-5':
+			return createPagePreviewWithCategories;
 		case 'popups-variant-1':
 		default:
 			return createPagePreview;

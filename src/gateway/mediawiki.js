@@ -38,7 +38,7 @@ export default function createMediaWikiApiGateway( api, config ) {
 	function fetch( title ) {
 		return api.get( {
 			action: 'query',
-			prop: 'info|extracts|pageimages|revisions|info|categories|vignetteimages',
+			prop: 'info|extracts|revisions|info|categories|vignetteimages',
 			formatversion: 2,
 			redirects: true,
 			exintro: true,
@@ -58,7 +58,7 @@ export default function createMediaWikiApiGateway( api, config ) {
 			// Parameters for categories properties
 			cllimit: 5,
 			clshow: '!hidden',
-			clcategories
+			clcategories,
 			vigthumbsize: config.THUMBNAIL_SIZE
 		}, {
 			headers: {
