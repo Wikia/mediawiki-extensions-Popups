@@ -12,8 +12,8 @@ import { renderPagePreview } from './templates/pagePreview/pagePreview';
 import { renderPagePreviewWithButton } from './templates/pagePreviewWithButton/pagePreviewWithButton';
 import { renderPagePreviewWithTitle } from './templates/pagePreviewWithTitle/pagePreviewWithTitle';
 import { renderPagePreviewWithImage } from './templates/pagePreviewWithImage/pagePreviewWithImage';
-import * as trackExperimentsInteractions from "../trackExperimentsInteractions";
-import {trackLinkClick} from "../trackExperimentsInteractions";
+import { renderPagePreviewWithCategories } from './templates/pagePreviewWithCategories/pagePreviewWithCategories';
+import * as trackExperimentsInteractions from '../trackExperimentsInteractions';
 
 const mw = mediaWiki,
 	$ = jQuery,
@@ -162,6 +162,8 @@ function getPagePreview() {
 			return createPagePreviewWithTitle;
 		case 'popups-variant-4':
 			return createPagePreviewWithImage;
+		case 'popups-variant-5':
+			return createPagePreviewWithCategories;
 		case 'popups-variant-1':
 		default:
 			return createPagePreview;
@@ -197,7 +199,7 @@ function createPagePreviewWithButton( model ) {
 		hasThumbnail = thumbnail !== null;
 
 	return {
-		el: renderPagePreviewWithButton( model, thumbnail ),
+		el: renderPagePreviewWithButton( model, thumbnail, true ),
 		hasThumbnail,
 		thumbnail,
 		isTall: hasThumbnail && thumbnail.isTall
@@ -233,6 +235,21 @@ function createPagePreviewWithImage( model ) {
 		el: renderPagePreviewWithImage( model, thumbnail ),
 		hasThumbnail,
 		thumbnail,
+		isTall: false
+	};
+}
+
+/**
+ * Creates an instance of the DTO backing a preview with categories.
+ *
+ * @param {ext.popups.PagePreviewModel} model
+ * @return {ext.popups.Preview}
+ */
+function createPagePreviewWithCategories( model ) {
+	return {
+		el: renderPagePreviewWithCategories( model, null ),
+		hasThumbnail: false,
+		thumbnail: false,
 		isTall: false
 	};
 }
