@@ -6,3 +6,4 @@
 /.eslintcache
 /.storybook/node_modules
 /.storybook/dist
+/.idea

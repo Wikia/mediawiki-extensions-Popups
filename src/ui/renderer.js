@@ -13,6 +13,8 @@ import { renderPagePreviewWithButton } from './templates/pagePreviewWithButton/p
 import { renderPagePreviewWithTitle } from './templates/pagePreviewWithTitle/pagePreviewWithTitle';
 import { renderPagePreviewWithImage } from './templates/pagePreviewWithImage/pagePreviewWithImage';
 import { renderPagePreviewWithCategories } from './templates/pagePreviewWithCategories/pagePreviewWithCategories';
+import * as trackExperimentsInteractions from "../trackExperimentsInteractions";
+import {trackLinkClick} from "../trackExperimentsInteractions";
 
 const mw = mediaWiki,
 	$ = jQuery,
@@ -88,11 +90,10 @@ export function init() {
  * orientation, if necessary.
  *
  * @param {ext.popups.PreviewModel} model
- * @return {ext.popups.Preview}
+ * @return {ext.popups.Preview|null}
  */
 export function render( model ) {
 	const preview = createPreviewWithType( model );
-
 	return {
 		/**
 		 * Shows the preview given an event representing the user's interaction
@@ -110,6 +111,12 @@ export function render( model ) {
 		 * @return {JQuery.Promise<void>}
 		 */
 		show( event, boundActions, token ) {
+			$( event.target ).click(function() {
+				trackExperimentsInteractions.trackLinkClick();
+			});
+			if (window.pathfinderPopupsExtVariant && window.pathfinderPopupsExtVariant === "popups-variant-control") {
+				return null;
+			}
 			return show(
 				preview, event, $( event.target ), boundActions, token,
 				document.body, document.documentElement.getAttribute( 'dir' )
@@ -138,13 +145,27 @@ export function render( model ) {
 export function createPreviewWithType( model ) {
 	switch ( model.type ) {
 		case previewTypes.TYPE_PAGE:
-			return createPagePreview( model );
+			return getPagePreview()(model);
 		case previewTypes.TYPE_DISAMBIGUATION:
 			return createDisambiguationPreview( model );
 		case previewTypes.TYPE_REFERENCE:
 			return createReferencePreview( model );
 		default:
 			return createEmptyPreview( model );
+	}
+}
+
+function getPagePreview() {
+	switch ( window.pathfinderPopupsExtVariant ) {
+		case 'popups-variant-2':
+			return createPagePreviewWithButton;
+		case 'popups-variant-3':
+			return createPagePreviewWithTitle;
+		case 'popups-variant-4':
+			return createPagePreviewWithImage;
+		case 'popups-variant-1':
+		default:
+			return createPagePreview;
 	}
 }
 
@@ -328,6 +349,21 @@ export function show(
 		dir
 	);
 
+	let timeoutId;
+	$link.hover(function() {
+		if (!timeoutId) {
+			timeoutId = setTimeout(function() {
+				timeoutId = null;
+				trackExperimentsInteractions.trackPopupHover();
+			}, 2000);
+		}
+	}, function () {
+		if (timeoutId) {
+			clearTimeout(timeoutId);
+			timeoutId = null;
+		}
+	});
+
 	preview.el.appendTo( container );
 
 	layoutPreview(
@@ -369,6 +405,27 @@ export function bindBehavior( preview, behavior ) {
 
 			behavior.showSettings( event );
 		} );
+
+	// Popups experiment:
+	// find the button and track click action, hover on popup
+	$("div.mwe-popups a").not(".mwe-popups-settings-icon").click(function() {
+		trackExperimentsInteractions.trackPopupClick();
+	});
+
+	let timeoutId;
+	$("div.mwe-popups").hover(function() {
+		if (!timeoutId) {
+			timeoutId = setTimeout(function() {
+				timeoutId = null;
+				trackExperimentsInteractions.trackPopupHover();
+			}, 2000);
+		}
+	}, function () {
+		if (timeoutId) {
+			clearTimeout(timeoutId);
+			timeoutId = null;
+		}
+	});
 }
 
 /**

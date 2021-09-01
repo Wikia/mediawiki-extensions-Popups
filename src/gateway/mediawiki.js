@@ -38,7 +38,7 @@ export default function createMediaWikiApiGateway( api, config ) {
 	function fetch( title ) {
 		return api.get( {
 			action: 'query',
-			prop: 'info|extracts|pageimages|revisions|info|categories',
+			prop: 'info|extracts|pageimages|revisions|info|categories|vignetteimages',
 			formatversion: 2,
 			redirects: true,
 			exintro: true,
@@ -48,9 +48,6 @@ export default function createMediaWikiApiGateway( api, config ) {
 			// so that text does not overflow from the card.
 			explaintext: true,
 
-			piprop: 'thumbnail',
-			pithumbsize: config.THUMBNAIL_SIZE,
-			pilicense: 'any',
 			rvprop: 'timestamp',
 			inprop: 'url',
 			titles: title,
@@ -62,6 +59,7 @@ export default function createMediaWikiApiGateway( api, config ) {
 			cllimit: 5,
 			clshow: '!hidden',
 			clcategories
+			vigthumbsize: config.THUMBNAIL_SIZE
 		}, {
 			headers: {
 				'X-Analytics': 'preview=1',
