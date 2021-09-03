@@ -673,7 +673,6 @@ export function layoutPreview(
 		left: `${ layout.offset.left }px`
 	} );
 
-	//martyna
 	if ( hasThumbnail && showThumbnailClipPath ) {
 		setThumbnailClipPath( preview, layout );
 	}
