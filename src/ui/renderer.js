@@ -158,7 +158,6 @@ export function createPreviewWithType( model ) {
 }
 
 function getPagePreview() {
-	return createPagePreviewWithButton;
 	switch ( window.pathfinderPopupsExtVariant ) {
 		case 'popups-variant-2':
 			return createPagePreviewWithButton;
