@@ -228,11 +228,17 @@ function createPagePreviewWithTitle( model ) {
  * Creates an instance of the DTO backing a preview with image.
  *
  * @param {ext.popups.PagePreviewModel} model
- * @return {ext.popups.Preview}
+ * @return {ext.popups.Preview|null}
  */
 function createPagePreviewWithImage( model ) {
 	const thumbnail = createThumbnail( model.thumbnail ),
 		hasThumbnail = thumbnail !== null;
+
+	// Don't display popup in the variant 4 when
+	// there's no thumbnail
+	if (!hasThumbnail) {
+		return null;
+	}
 
 	return {
 		el: renderPagePreviewWithImage( model, thumbnail ),
@@ -370,9 +376,12 @@ export function show(
 
 	preview.el.appendTo( container );
 
+	const showThumbnailClipPath = window.pathfinderPopupsExtVariant &&
+			window.pathfinderPopupsExtVariant !== 'popups-variant-2';
+
 	layoutPreview(
 		preview, layout, getClasses( preview, layout ),
-		SIZES.landscapeImage.h, pointerSize
+		SIZES.landscapeImage.h, pointerSize, showThumbnailClipPath
 	);
 
 	preview.el.show();
@@ -629,10 +638,11 @@ export function getClasses( preview, layout ) {
  * @param {string[]} classes class names used for layout out the preview
  * @param {number} predefinedLandscapeImageHeight landscape image height
  * @param {number} pointerSize
+ * @param showThumbnailClipPath
  * @return {void}
  */
 export function layoutPreview(
-	preview, layout, classes, predefinedLandscapeImageHeight, pointerSize
+	preview, layout, classes, predefinedLandscapeImageHeight, pointerSize, showThumbnailClipPath = true
 ) {
 	const popup = preview.el,
 		isTall = preview.isTall,
@@ -662,7 +672,7 @@ export function layoutPreview(
 		left: `${ layout.offset.left }px`
 	} );
 
-	if ( hasThumbnail ) {
+	if ( hasThumbnail && showThumbnailClipPath ) {
 		setThumbnailClipPath( preview, layout );
 	}
 }
