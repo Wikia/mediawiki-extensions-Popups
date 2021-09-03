@@ -144,7 +144,7 @@ class PopupsHooks {
 	 * @param \IContextSource $out OutputPage instance calling the hook
 	 */
 	public static function onMakeGlobalVariablesScript( array &$vars, \IContextSource $out ) {
-	    global $wgEnablePopups;
+	    global $wgEnablePopups, $wgIsTestWiki;
 
 		/** @var PopupsContext $context */
 		$context = MediaWikiServices::getInstance()->getService( 'Popups.Context' );
@@ -158,7 +158,8 @@ class PopupsHooks {
 			$user
 		);
 
-        $vars['wgEnablePopups'] = $wgEnablePopups;
+		$vars['wgEnablePopups'] = $wgEnablePopups;
+		$vars['wgIsTestWiki'] = $wgIsTestWiki;
 	}
 
 	/**
