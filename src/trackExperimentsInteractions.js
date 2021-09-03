@@ -7,6 +7,7 @@ export function trackPopupClick() {
 		window.pathfinderTracking.trackPopupsExt({
 			action: 'click-on-popup'
 		});
+		window.pathfinderOptimizelyCustomEvents.optimizelyPopupsExtPopupClick();
 	}
 }
 
@@ -15,6 +16,7 @@ export function trackLinkClick() {
 		window.pathfinderTracking.trackPopupsExt({
 			action: 'click-on-link'
 		});
+		window.pathfinderOptimizelyCustomEvents.optimizelyPopupsExtLinkClick();
 	}
 }
 
@@ -23,5 +25,6 @@ export function trackPopupHover() {
 		window.pathfinderTracking.trackPopupsExt({
 			action: 'mouseover'
 		});
+		window.pathfinderOptimizelyCustomEvents.optimizelyPopupsExtPopupHover();
 	}
 }
