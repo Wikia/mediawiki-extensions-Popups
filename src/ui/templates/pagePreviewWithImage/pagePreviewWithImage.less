@@ -2,20 +2,21 @@
 
 .mwe-popups {
   .mwe-popups-container {
-	.mwe-popups-overflow {
-	  text-align: center;
-	  display: block;
-	  position: absolute;
-	  background: linear-gradient(to top, rgba(0, 0, 0, 0), #2a2a2a);
-	  z-index: @zIndexThumbnailOverflow;
-	}
+    .mwe-popups-overflow {
+      display: block;
+      position: absolute;
+      background: linear-gradient(to top, #000, rgba(0, 0, 0, 0));
+      z-index: @zIndexThumbnailOverflow;
+    }
 
-	.mwe-popups-overflow-title {
-	  position: absolute;
-	  width: 100%;
-	  color: #fff;
-	  font-weight: bold;
-	  font-size: 20px;
-	}
+    .mwe-popups-overflow-title {
+      position: absolute;
+      width: 100%;
+      color: #fff;
+      font-weight: bold;
+      font-size: 20px;
+      padding: 16px;
+      bottom: 0;
+    }
   }
 }
