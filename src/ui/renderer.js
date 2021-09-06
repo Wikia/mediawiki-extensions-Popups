@@ -376,8 +376,7 @@ export function show(
 
 	preview.el.appendTo( container );
 
-	const showThumbnailClipPath = window.pathfinderPopupsExtVariant &&
-			window.pathfinderPopupsExtVariant !== 'popups-variant-2';
+	const showThumbnailClipPath = !window.pathfinderPopupsExtVariant;
 
 	layoutPreview(
 		preview, layout, getClasses( preview, layout ),
