@@ -5,7 +5,8 @@
 export function trackPopupClick() {
 	if ( window.pathfinderPopupsExtVariant ) {
 		window.pathfinderTracking.trackPopupsExt({
-			action: 'click-on-popup'
+			action: 'click-on-popup',
+			variant: window.pathfinderPopupsExtVariant
 		});
 		window.pathfinderOptimizelyCustomEvents.optimizelyPopupsExtPopupClick();
 	}
@@ -14,7 +15,8 @@ export function trackPopupClick() {
 export function trackLinkClick() {
 	if ( window.pathfinderPopupsExtVariant ) {
 		window.pathfinderTracking.trackPopupsExt({
-			action: 'click-on-link'
+			action: 'click-on-link',
+			variant: window.pathfinderPopupsExtVariant
 		});
 		window.pathfinderOptimizelyCustomEvents.optimizelyPopupsExtLinkClick();
 	}
@@ -23,7 +25,8 @@ export function trackLinkClick() {
 export function trackPopupHover() {
 	if ( window.pathfinderPopupsExtVariant ) {
 		window.pathfinderTracking.trackPopupsExt({
-			action: 'mouseover'
+			action: 'mouseover',
+			variant: window.pathfinderPopupsExtVariant
 		});
 		window.pathfinderOptimizelyCustomEvents.optimizelyPopupsExtPopupHover();
 	}
