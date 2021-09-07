@@ -12,10 +12,10 @@
 //   Not tall  Missing    Landscape
 
 .mwe-popups {
-	background: #fff;
+	background: var(--theme-page-background-color);
 	position: absolute;
 	z-index: @zIndexPopup;
-	.box-shadow( 0 30px 90px -20px rgba( 0, 0, 0, 0.3 ), 0 0 1px @colorGray10; );
+	.box-shadow( 0 30px 90px -20px ~"rgba( var(--theme-page-dynamic-color-1--rgb), 30% )", 0 0 1px @colorGray10; );
 	padding: 0;
 	display: none;
 	font-size: 14px;
@@ -57,7 +57,7 @@
 		// the settings cog in IE9-11.
 		margin: @popupPadding;
 		display: block;
-		color: @colorText;
+		color: var(--theme-page-text-color);
 		text-decoration: none;
 		position: relative;
 
@@ -80,26 +80,26 @@
 			/* @noflip */
 			right: 0;
 			/* @noflip */
-			background-image: -webkit-linear-gradient( to right, rgba( 255, 255, 255, 0 ), rgba( 255, 255, 255, 1 ) 50% );
+			background-image: -webkit-linear-gradient( to right, ~"rgba( var(--theme-page-background-color--rgb), 0 )", ~"rgba( var(--theme-page-background-color--rgb), 1 )" 50% );
 			/* @noflip */
-			background-image: -moz-linear-gradient( to right, rgba( 255, 255, 255, 0 ), rgba( 255, 255, 255, 1 ) 50% );
+			background-image: -moz-linear-gradient( to right, ~"rgba( var(--theme-page-background-color--rgb), 0 )", ~"rgba( var(--theme-page-background-color--rgb), 1 )" 50% );
 			/* @noflip */
-			background-image: -o-linear-gradient( to right, rgba( 255, 255, 255, 0 ), rgba( 255, 255, 255, 1 ) 50% );
+			background-image: -o-linear-gradient( to right, ~"rgba( var(--theme-page-background-color--rgb), 0 )", ~"rgba( var(--theme-page-background-color--rgb), 1 )" 50% );
 			/* @noflip */
-			background-image: linear-gradient( to right, rgba( 255, 255, 255, 0 ), rgba( 255, 255, 255, 1 ) 50% );
+			background-image: linear-gradient( to right, ~"rgba( var(--theme-page-background-color--rgb), 0 )", ~"rgba( var(--theme-page-background-color--rgb), 1 )" 50% );
 		}
 
 		&[ dir='rtl' ]:after {
 			/* @noflip */
 			left: 0;
 			/* @noflip */
-			background-image: -webkit-linear-gradient( to left, rgba( 255, 255, 255, 0 ), rgba( 255, 255, 255, 1 ) 50% );
+			background-image: -webkit-linear-gradient( to left, ~"rgba( var(--theme-page-background-color--rgb), 0 )", ~"rgba( var(--theme-page-background-color--rgb), 1 )" 50% );
 			/* @noflip */
-			background-image: -moz-linear-gradient( to left, rgba( 255, 255, 255, 0 ), rgba( 255, 255, 255, 1 ) 50% );
+			background-image: -moz-linear-gradient( to left, ~"rgba( var(--theme-page-background-color--rgb), 0 )", ~"rgba( var(--theme-page-background-color--rgb), 1 )" 50% );
 			/* @noflip */
-			background-image: -o-linear-gradient( to left, rgba( 255, 255, 255, 0 ), rgba( 255, 255, 255, 1 ) 50% );
+			background-image: -o-linear-gradient( to left, ~"rgba( var(--theme-page-background-color--rgb), 0 )", ~"rgba( var(--theme-page-background-color--rgb), 1 )" 50% );
 			/* @noflip */
-			background-image: linear-gradient( to left, rgba( 255, 255, 255, 0 ), rgba( 255, 255, 255, 1 ) 50% );
+			background-image: linear-gradient( to left, ~"rgba( var(--theme-page-background-color--rgb), 0 )", ~"rgba( var(--theme-page-background-color--rgb), 1 )" 50% );
 		}
 		/* stylelint-enable function-linear-gradient-no-nonstandard-direction */
 
@@ -182,50 +182,7 @@
 		}
 	}
 
-	/* Triangles/Pointers */
-	&.mwe-popups-no-image-pointer {
-		&:before {
-			.mwe-popups-border-pointer-top( 8px, 10px, @colorGray10, 0px );
-		}
-
-		&:after {
-			.mwe-popups-border-pointer-top( 7px, 7px, #fff, 4px );
-		}
-	}
-
-	&.flipped-x.mwe-popups-no-image-pointer {
-		&:before {
-			left: auto;
-			right: 10px;
-		}
-
-		&:after {
-			left: auto;
-			right: 7px;
-		}
-	}
-
 	&.mwe-popups-image-pointer {
-		&:before {
-			.mwe-popups-border-pointer-top( 9px, 9px, @colorGray10, 0px );
-			z-index: @zIndexBackground;
-		}
-
-		&:after {
-			.mwe-popups-border-pointer-top( 8px, 6px, #fff, 4px );
-			z-index: @zIndexForeground;
-		}
-
-		&.flipped-x {
-			&:before {
-				.mwe-popups-border-pointer-top( 9px, 293px, @colorGray10, 0px );
-			}
-
-			&:after {
-				.mwe-popups-border-pointer-top( 8px, 290px, #fff, 4px );
-			}
-		}
-
 		.mwe-popups-extract {
 			padding-top: @popupPadding;
 			// The number here should reflect landscapeImage.h
@@ -243,11 +200,6 @@
 	&.flipped-x.mwe-popups-is-tall {
 		min-height: 242px;
 
-		&:before {
-			.mwe-popups-border-pointer-top( 9px, 420px, @colorGray10, 0px );
-			z-index: @zIndexBackground;
-		}
-
 		> div > a > svg {
 			margin: 0;
 			margin-top: -8px;
@@ -259,26 +211,8 @@
 	}
 
 	&.flipped-x-y {
-		&:before {
-			.mwe-popups-border-pointer-bottom( 9px, 293px, @colorGray10, 0px );
-			z-index: @zIndexBackground;
-		}
-
-		&:after {
-			.mwe-popups-border-pointer-bottom( 8px, 290px, #fff, 4px );
-			z-index: @zIndexForeground;
-		}
-
 		&.mwe-popups-is-tall {
 			min-height: 242px;
-
-			&:before {
-				.mwe-popups-border-pointer-bottom( 9px, 420px, @colorGray10, 0px );
-			}
-
-			&:after {
-				.mwe-popups-border-pointer-bottom( 8px, 417px, #fff, 4px );
-			}
 
 			> div > a > svg {
 				margin: 0;
@@ -287,16 +221,6 @@
 				z-index: @zIndexThumbnailMask;
 				right: 0;
 			}
-		}
-	}
-
-	&.flipped-y {
-		&:before {
-			.mwe-popups-border-pointer-bottom( 8px, 10px, @colorGray10, 0px );
-		}
-
-		&:after {
-			.mwe-popups-border-pointer-bottom( 7px, 7px, #fff, 4px );
 		}
 	}
 }
