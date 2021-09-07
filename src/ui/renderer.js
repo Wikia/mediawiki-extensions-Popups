@@ -96,6 +96,9 @@ export function render( model ) {
 		return null;
 	}
 	const preview = createPreviewWithType( model );
+	if (preview === null) {
+		return null;
+	}
 	return {
 		/**
 		 * Shows the preview given an event representing the user's interaction
