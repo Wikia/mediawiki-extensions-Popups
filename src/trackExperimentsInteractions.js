@@ -1,33 +1,36 @@
 /**
  * @module trackExperimentsInteractions
  */
+export function buildPopupTrackingFunction(name) {
+		return window.pathfinderTracking.buildTrackingFunctions('PopupsExtModule', name);
+}
 
 export function trackPopupClick() {
 	if ( window.pathfinderPopupsExtVariant ) {
-		window.pathfinderTracking.trackPopupsExt({
+		buildPopupTrackingFunction(window.pathfinderPopupsExtVariant)({
 			action: 'click-on-popup',
-			variant: window.pathfinderPopupsExtVariant
-		});
+			experimentVariant: window.pathfinderPopupsExtVariant
+		})
 		window.pathfinderOptimizelyCustomEvents.optimizelyPopupsExtPopupClick();
 	}
 }
 
 export function trackLinkClick() {
 	if ( window.pathfinderPopupsExtVariant ) {
-		window.pathfinderTracking.trackPopupsExt({
+		buildPopupTrackingFunction(window.pathfinderPopupsExtVariant)({
 			action: 'click-on-link',
-			variant: window.pathfinderPopupsExtVariant
-		});
+			experimentVariant: window.pathfinderPopupsExtVariant
+		})
 		window.pathfinderOptimizelyCustomEvents.optimizelyPopupsExtLinkClick();
 	}
 }
 
 export function trackPopupHover() {
 	if ( window.pathfinderPopupsExtVariant ) {
-		window.pathfinderTracking.trackPopupsExt({
+		buildPopupTrackingFunction(window.pathfinderPopupsExtVariant)({
 			action: 'mouseover',
-			variant: window.pathfinderPopupsExtVariant
-		});
+			experimentVariant: window.pathfinderPopupsExtVariant
+		})
 		window.pathfinderOptimizelyCustomEvents.optimizelyPopupsExtPopupHover();
 	}
 }
