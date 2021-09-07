@@ -23,7 +23,7 @@ const adjustSettingsPosition = ($el, $container) => {
 	$container.append($textSection);
 }
 
-export function renderPagePreviewWithButton(model, thumbnail, changeSettingsPosition = false) {
+export function renderPagePreviewWithButton(model, thumbnail) {
 	const url = escapeHTML(model.url);
 	const $el = renderPagePreview(model, thumbnail)
 
@@ -33,11 +33,6 @@ export function renderPagePreviewWithButton(model, thumbnail, changeSettingsPosi
 	const $container = $el.find('.mwe-popups-container')
 		.addClass('mwe-popups-fandom')
 		.prepend(`<div class="mwe-popups-header">${mw.msg('popups-fandom-header-text')}</div>`);
-
-	const isTall = thumbnail && thumbnail.isTall;
-	if (changeSettingsPosition && isTall) {
-		adjustSettingsPosition($el, $container);
-	}
 
 	$container.append($buttonSection);
 

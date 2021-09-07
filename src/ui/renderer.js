@@ -96,6 +96,9 @@ export function render( model ) {
 		return null;
 	}
 	const preview = createPreviewWithType( model );
+	if (preview === null) {
+		return null;
+	}
 	return {
 		/**
 		 * Shows the preview given an event representing the user's interaction
@@ -202,7 +205,7 @@ function createPagePreviewWithButton( model ) {
 		hasThumbnail = thumbnail !== null;
 
 	return {
-		el: renderPagePreviewWithButton( model, thumbnail, true ),
+		el: renderPagePreviewWithButton( model, thumbnail ),
 		hasThumbnail,
 		thumbnail,
 		isTall: hasThumbnail && thumbnail.isTall
