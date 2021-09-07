@@ -182,50 +182,7 @@
 		}
 	}
 
-	/* Triangles/Pointers */
-	&.mwe-popups-no-image-pointer {
-		&:before {
-			.mwe-popups-border-pointer-top( 8px, 10px, @colorGray10, 0px );
-		}
-
-		&:after {
-			.mwe-popups-border-pointer-top( 7px, 7px, #fff, 4px );
-		}
-	}
-
-	&.flipped-x.mwe-popups-no-image-pointer {
-		&:before {
-			left: auto;
-			right: 10px;
-		}
-
-		&:after {
-			left: auto;
-			right: 7px;
-		}
-	}
-
 	&.mwe-popups-image-pointer {
-		&:before {
-			.mwe-popups-border-pointer-top( 9px, 9px, @colorGray10, 0px );
-			z-index: @zIndexBackground;
-		}
-
-		&:after {
-			.mwe-popups-border-pointer-top( 8px, 6px, #fff, 4px );
-			z-index: @zIndexForeground;
-		}
-
-		&.flipped-x {
-			&:before {
-				.mwe-popups-border-pointer-top( 9px, 293px, @colorGray10, 0px );
-			}
-
-			&:after {
-				.mwe-popups-border-pointer-top( 8px, 290px, #fff, 4px );
-			}
-		}
-
 		.mwe-popups-extract {
 			padding-top: @popupPadding;
 			// The number here should reflect landscapeImage.h
@@ -243,11 +200,6 @@
 	&.flipped-x.mwe-popups-is-tall {
 		min-height: 242px;
 
-		&:before {
-			.mwe-popups-border-pointer-top( 9px, 420px, @colorGray10, 0px );
-			z-index: @zIndexBackground;
-		}
-
 		> div > a > svg {
 			margin: 0;
 			margin-top: -8px;
@@ -259,26 +211,8 @@
 	}
 
 	&.flipped-x-y {
-		&:before {
-			.mwe-popups-border-pointer-bottom( 9px, 293px, @colorGray10, 0px );
-			z-index: @zIndexBackground;
-		}
-
-		&:after {
-			.mwe-popups-border-pointer-bottom( 8px, 290px, #fff, 4px );
-			z-index: @zIndexForeground;
-		}
-
 		&.mwe-popups-is-tall {
 			min-height: 242px;
-
-			&:before {
-				.mwe-popups-border-pointer-bottom( 9px, 420px, @colorGray10, 0px );
-			}
-
-			&:after {
-				.mwe-popups-border-pointer-bottom( 8px, 417px, #fff, 4px );
-			}
 
 			> div > a > svg {
 				margin: 0;
@@ -287,16 +221,6 @@
 				z-index: @zIndexThumbnailMask;
 				right: 0;
 			}
-		}
-	}
-
-	&.flipped-y {
-		&:before {
-			.mwe-popups-border-pointer-bottom( 8px, 10px, @colorGray10, 0px );
-		}
-
-		&:after {
-			.mwe-popups-border-pointer-bottom( 7px, 7px, #fff, 4px );
 		}
 	}
 }
