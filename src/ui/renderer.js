@@ -205,7 +205,7 @@ function createPagePreviewWithButton( model ) {
 		hasThumbnail = thumbnail !== null;
 
 	return {
-		el: renderPagePreviewWithButton( model, thumbnail, true ),
+		el: renderPagePreviewWithButton( model, thumbnail ),
 		hasThumbnail,
 		thumbnail,
 		isTall: hasThumbnail && thumbnail.isTall
