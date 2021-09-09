@@ -92,11 +92,8 @@ export function init() {
  * @return {ext.popups.Preview|null}
  */
 export function render( model ) {
-	if (model.extract[0].textContent === '...' && window.pathfinderPopupsExtVariant) {
-		return null;
-	}
 	const preview = createPreviewWithType( model );
-	if (preview === null) {
+	if (preview === null || preview.el === null) {
 		return null;
 	}
 	return {
