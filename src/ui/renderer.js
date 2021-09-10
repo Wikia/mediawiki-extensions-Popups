@@ -96,6 +96,8 @@ export function render( model ) {
 	if (preview === null || preview.el === null) {
 		return null;
 	}
+
+	let timeoutId;
 	return {
 		/**
 		 * Shows the preview given an event representing the user's interaction
@@ -119,6 +121,13 @@ export function render( model ) {
 			if (window.pathfinderPopupsExtVariant && window.pathfinderPopupsExtVariant === "popups-variant-control") {
 				return null;
 			}
+
+			if (window.pathfinderPopupsExtVariant && !timeoutId) {
+				timeoutId = setTimeout(function() {
+					timeoutId = null;
+					trackExperimentsInteractions.trackImpression();
+				}, 2000);
+			}
 			return show(
 				preview, event, $( event.target ), boundActions, token,
 				document.body, document.documentElement.getAttribute( 'dir' )
@@ -133,6 +142,11 @@ export function render( model ) {
 		 * @return {JQuery.Promise<void>}
 		 */
 		hide() {
+			if (window.pathfinderPopupsExtVariant && timeoutId) {
+				clearTimeout(timeoutId);
+				timeoutId = null;
+			}
+
 			return hide( preview );
 		}
 	};
@@ -359,21 +373,6 @@ export function show(
 		dir
 	);
 
-	let timeoutId;
-	$link.hover(function() {
-		if (!timeoutId) {
-			timeoutId = setTimeout(function() {
-				timeoutId = null;
-				trackExperimentsInteractions.trackPopupHover();
-			}, 2000);
-		}
-	}, function () {
-		if (timeoutId) {
-			clearTimeout(timeoutId);
-			timeoutId = null;
-		}
-	});
-
 	preview.el.appendTo( container );
 
 	const showThumbnailClipPath = !window.pathfinderPopupsExtVariant;
@@ -422,21 +421,6 @@ export function bindBehavior( preview, behavior ) {
 	// find the button and track click action, hover on popup
 	$("div.mwe-popups a").not(".mwe-popups-settings-icon").click(function() {
 		trackExperimentsInteractions.trackPopupClick();
-	});
-
-	let timeoutId;
-	$("div.mwe-popups").hover(function() {
-		if (!timeoutId) {
-			timeoutId = setTimeout(function() {
-				timeoutId = null;
-				trackExperimentsInteractions.trackPopupHover();
-			}, 2000);
-		}
-	}, function () {
-		if (timeoutId) {
-			clearTimeout(timeoutId);
-			timeoutId = null;
-		}
 	});
 }
 
