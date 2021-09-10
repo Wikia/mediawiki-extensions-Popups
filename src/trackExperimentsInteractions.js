@@ -25,11 +25,10 @@ export function trackLinkClick() {
 	}
 }
 
-export function trackPopupHover() {
+export function trackImpression() {
 	if ( window.pathfinderPopupsExtVariant ) {
-		buildPopupTrackingFunction(window.pathfinderPopupsExtVariant)({
-			action: 'mouseover',
-			experimentVariant: window.pathfinderPopupsExtVariant
+		buildPopupTrackingFunction(window.pathfinderPopupsExtVariant).impression({
+			label: 'open-popup',
 		})
 		window.pathfinderOptimizelyCustomEvents.optimizelyPopupsExtPopupHover();
 	}
