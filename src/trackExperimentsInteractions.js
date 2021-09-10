@@ -7,9 +7,8 @@ export function buildPopupTrackingFunction(name) {
 
 export function trackPopupClick() {
 	if ( window.pathfinderPopupsExtVariant ) {
-		buildPopupTrackingFunction(window.pathfinderPopupsExtVariant)({
-			action: 'click-on-popup',
-			experimentVariant: window.pathfinderPopupsExtVariant
+		buildPopupTrackingFunction(window.pathfinderPopupsExtVariant).click({
+			label: 'click-on-popup'
 		})
 		window.pathfinderOptimizelyCustomEvents.optimizelyPopupsExtPopupClick();
 	}
@@ -17,9 +16,8 @@ export function trackPopupClick() {
 
 export function trackLinkClick() {
 	if ( window.pathfinderPopupsExtVariant ) {
-		buildPopupTrackingFunction(window.pathfinderPopupsExtVariant)({
-			action: 'click-on-link',
-			experimentVariant: window.pathfinderPopupsExtVariant
+		buildPopupTrackingFunction(window.pathfinderPopupsExtVariant).click({
+			label: 'click-on-link'
 		})
 		window.pathfinderOptimizelyCustomEvents.optimizelyPopupsExtLinkClick();
 	}
