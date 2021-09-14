@@ -8,7 +8,8 @@ import * as formatter from '../formatter';
 // Public and private cache lifetime (5 minutes)
 //
 // FIXME: Move this to src/constants.js.
-const CACHE_LIFETIME = 300,
+const mw = mediaWiki,
+	CACHE_LIFETIME = 300,
 	$ = jQuery;
 
 /**
@@ -32,28 +33,28 @@ const CACHE_LIFETIME = 300,
  * @return {MediaWikiGateway}
  */
 export default function createMediaWikiApiGateway( api, config ) {
+	const clcategories = getCategoriesFilter();
+
 	function fetch( title ) {
 		return api.get( {
 			action: 'query',
-			prop: 'info|extracts|pageimages|revisions|info',
+			prop: 'info|articlesnippet|revisions|info|categories|vignetteimages',
 			formatversion: 2,
 			redirects: true,
-			exintro: true,
-			exchars: config.EXTRACT_LENGTH,
+			artchars: config.EXTRACT_LENGTH,
 
-			// There is an added geometric limit on .mwe-popups-extract
-			// so that text does not overflow from the card.
-			explaintext: true,
-
-			piprop: 'thumbnail',
-			pithumbsize: config.THUMBNAIL_SIZE,
-			pilicense: 'any',
 			rvprop: 'timestamp',
 			inprop: 'url',
 			titles: title,
 			smaxage: CACHE_LIFETIME,
 			maxage: CACHE_LIFETIME,
-			uselang: 'content'
+			uselang: 'content',
+
+			// Parameters for categories properties
+			cllimit: 5,
+			clshow: '!hidden',
+			clcategories,
+			vigthumbsize: config.THUMBNAIL_SIZE
 		}, {
 			headers: {
 				'X-Analytics': 'preview=1',
@@ -141,6 +142,21 @@ function convertPageToModel( page ) {
 		page.extract,
 		page.type,
 		page.thumbnail,
-		page.pageid
+		page.pageid,
+		page.categories
 	);
+}
+
+/**
+ * Build category filter for ApiQuery from current page categories
+ *
+ * @returns {string}
+ */
+function getCategoriesFilter () {
+	const NS_CATEGORY = mw.config.get( 'wgNamespaceIds' ).category;
+
+	return mw.config.get('wgCategories')
+		.slice(0, 49) // Category filter accepts only 50 categories
+		.map((category) => mw.Title.newFromText(category, NS_CATEGORY).getPrefixedText())
+		.join('|');
 }

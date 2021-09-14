@@ -24,10 +24,7 @@ export function renderPagePreviewWithImage(model, thumbnail) {
 		});
 
 	const title = escapeHTML(model.title);
-	const $title = $(`<h4 class="mwe-popups-overflow-title">${title}</h4>`)
-		.css({
-			top: thumbHeight * 0.2 + "px"
-		});
+	const $title = $(`<h4 class="mwe-popups-overflow-title">${title}</h4>`);
 	$overflow.append($title);
 
 	const $imageContainer = $el.find('.mwe-popups-discreet')

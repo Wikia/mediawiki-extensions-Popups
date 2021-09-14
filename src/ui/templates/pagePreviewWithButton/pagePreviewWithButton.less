@@ -3,6 +3,7 @@
 .mwe-popups {
   .mwe-popups-container {
 	&.mwe-popups-fandom {
+
 	  footer {
 		position: relative;
 
@@ -13,14 +14,25 @@
 	  }
 	}
 
+	.mwe-popups-text-section {
+	  position: relative;
+	  float: left;
+	  display: inline-block;
+
+	  .mwe-popups-settings-icon {
+		position: absolute;
+		right: @popupPadding;
+		bottom: @popupPadding;
+	  }
+	}
+
 	.mwe-popups-header {
 	  margin: @popupPadding;
 	  font-weight: bold;
 	}
 
 	.mwe-popups-buttons-section {
-	  text-align: center;
-	  margin: 10px;
+	  margin: 16px;
 	}
   }
 

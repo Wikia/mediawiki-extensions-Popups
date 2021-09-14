@@ -12,6 +12,8 @@ import { renderPagePreview } from './templates/pagePreview/pagePreview';
 import { renderPagePreviewWithButton } from './templates/pagePreviewWithButton/pagePreviewWithButton';
 import { renderPagePreviewWithTitle } from './templates/pagePreviewWithTitle/pagePreviewWithTitle';
 import { renderPagePreviewWithImage } from './templates/pagePreviewWithImage/pagePreviewWithImage';
+import { renderPagePreviewWithCategories } from './templates/pagePreviewWithCategories/pagePreviewWithCategories';
+import * as trackExperimentsInteractions from '../trackExperimentsInteractions';
 
 const mw = mediaWiki,
 	$ = jQuery,
@@ -87,11 +89,15 @@ export function init() {
  * orientation, if necessary.
  *
  * @param {ext.popups.PreviewModel} model
- * @return {ext.popups.Preview}
+ * @return {ext.popups.Preview|null}
  */
 export function render( model ) {
 	const preview = createPreviewWithType( model );
+	if (preview === null || preview.el === null) {
+		return null;
+	}
 
+	let timeoutId;
 	return {
 		/**
 		 * Shows the preview given an event representing the user's interaction
@@ -109,6 +115,19 @@ export function render( model ) {
 		 * @return {JQuery.Promise<void>}
 		 */
 		show( event, boundActions, token ) {
+			$( event.target ).click(function() {
+				trackExperimentsInteractions.trackLinkClick();
+			});
+			if (window.pathfinderPopupsExtVariant && window.pathfinderPopupsExtVariant === "popups-variant-control") {
+				return null;
+			}
+
+			if (window.pathfinderPopupsExtVariant && !timeoutId) {
+				timeoutId = setTimeout(function() {
+					timeoutId = null;
+					trackExperimentsInteractions.trackImpression();
+				}, 2000);
+			}
 			return show(
 				preview, event, $( event.target ), boundActions, token,
 				document.body, document.documentElement.getAttribute( 'dir' )
@@ -123,6 +142,11 @@ export function render( model ) {
 		 * @return {JQuery.Promise<void>}
 		 */
 		hide() {
+			if (window.pathfinderPopupsExtVariant && timeoutId) {
+				clearTimeout(timeoutId);
+				timeoutId = null;
+			}
+
 			return hide( preview );
 		}
 	};
@@ -137,13 +161,29 @@ export function render( model ) {
 export function createPreviewWithType( model ) {
 	switch ( model.type ) {
 		case previewTypes.TYPE_PAGE:
-			return createPagePreview( model );
+			return getPagePreview()(model);
 		case previewTypes.TYPE_DISAMBIGUATION:
 			return createDisambiguationPreview( model );
 		case previewTypes.TYPE_REFERENCE:
 			return createReferencePreview( model );
 		default:
 			return createEmptyPreview( model );
+	}
+}
+
+function getPagePreview() {
+	switch ( window.pathfinderPopupsExtVariant ) {
+		case 'popups-variant-2':
+			return createPagePreviewWithButton;
+		case 'popups-variant-3':
+			return createPagePreviewWithTitle;
+		case 'popups-variant-4':
+			return createPagePreviewWithImage;
+		case 'popups-variant-5':
+			return createPagePreviewWithCategories;
+		case 'popups-variant-1':
+		default:
+			return createPagePreview;
 	}
 }
 
@@ -202,16 +242,37 @@ function createPagePreviewWithTitle( model ) {
  * Creates an instance of the DTO backing a preview with image.
  *
  * @param {ext.popups.PagePreviewModel} model
- * @return {ext.popups.Preview}
+ * @return {ext.popups.Preview|null}
  */
 function createPagePreviewWithImage( model ) {
 	const thumbnail = createThumbnail( model.thumbnail ),
 		hasThumbnail = thumbnail !== null;
 
+	// Don't display popup in the variant 4 when
+	// there's no thumbnail
+	if (!hasThumbnail) {
+		return null;
+	}
+
 	return {
 		el: renderPagePreviewWithImage( model, thumbnail ),
 		hasThumbnail,
 		thumbnail,
+		isTall: false
+	};
+}
+
+/**
+ * Creates an instance of the DTO backing a preview with categories.
+ *
+ * @param {ext.popups.PagePreviewModel} model
+ * @return {ext.popups.Preview}
+ */
+function createPagePreviewWithCategories( model ) {
+	return {
+		el: renderPagePreviewWithCategories( model, null ),
+		hasThumbnail: false,
+		thumbnail: false,
 		isTall: false
 	};
 }
@@ -314,9 +375,11 @@ export function show(
 
 	preview.el.appendTo( container );
 
+	const showThumbnailClipPath = !window.pathfinderPopupsExtVariant;
+
 	layoutPreview(
 		preview, layout, getClasses( preview, layout ),
-		SIZES.landscapeImage.h, pointerSize
+		SIZES.landscapeImage.h, pointerSize, showThumbnailClipPath
 	);
 
 	preview.el.show();
@@ -353,6 +416,12 @@ export function bindBehavior( preview, behavior ) {
 
 			behavior.showSettings( event );
 		} );
+
+	// Popups experiment:
+	// find the button and track click action, hover on popup
+	$("div.mwe-popups a").not(".mwe-popups-settings-icon").click(function() {
+		trackExperimentsInteractions.trackPopupClick();
+	});
 }
 
 /**
@@ -552,10 +621,11 @@ export function getClasses( preview, layout ) {
  * @param {string[]} classes class names used for layout out the preview
  * @param {number} predefinedLandscapeImageHeight landscape image height
  * @param {number} pointerSize
+ * @param showThumbnailClipPath
  * @return {void}
  */
 export function layoutPreview(
-	preview, layout, classes, predefinedLandscapeImageHeight, pointerSize
+	preview, layout, classes, predefinedLandscapeImageHeight, pointerSize, showThumbnailClipPath = true
 ) {
 	const popup = preview.el,
 		isTall = preview.isTall,
@@ -585,7 +655,7 @@ export function layoutPreview(
 		left: `${ layout.offset.left }px`
 	} );
 
-	if ( hasThumbnail ) {
+	if ( hasThumbnail && showThumbnailClipPath ) {
 		setThumbnailClipPath( preview, layout );
 	}
 }
