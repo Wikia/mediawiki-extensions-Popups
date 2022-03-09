@@ -34,7 +34,7 @@ export default function createMediaWikiApiGateway( api, config ) {
 	function fetch( title ) {
 		return api.get( {
 			action: 'query',
-			prop: 'info|extracts|pageimages|revisions|info',
+			prop: 'info|extracts|revisions|vignetteimages',
 			formatversion: 2,
 			redirects: true,
 			exintro: mw.config.get( 'wgPopupsTextExtractsIntroOnly', true ),
@@ -45,15 +45,13 @@ export default function createMediaWikiApiGateway( api, config ) {
 			explaintext: true,
 			exsectionformat: 'plain',
 
-			piprop: 'thumbnail',
-			pithumbsize: config.THUMBNAIL_SIZE,
-			pilicense: 'any',
 			rvprop: 'timestamp',
 			inprop: 'url',
 			titles: title,
 			smaxage: CACHE_LIFETIME,
 			maxage: CACHE_LIFETIME,
-			uselang: 'content'
+			uselang: 'content',
+			vigthumbsize: config.THUMBNAIL_SIZE
 		}, {
 			headers: {
 				'X-Analytics': 'preview=1',
