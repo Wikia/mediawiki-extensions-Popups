@@ -34,17 +34,9 @@ export default function createMediaWikiApiGateway( api, config ) {
 	function fetch( title ) {
 		return api.get( {
 			action: 'query',
-			prop: 'info|extracts|revisions|vignetteimages',
+			prop: 'info|articlesnippet|revisions|info|vignetteimages',
 			formatversion: 2,
 			redirects: true,
-			exintro: mw.config.get( 'wgPopupsTextExtractsIntroOnly', true ),
-			exchars: config.EXTRACT_LENGTH,
-
-			// There is an added geometric limit on .mwe-popups-extract
-			// so that text does not overflow from the card.
-			explaintext: true,
-			exsectionformat: 'plain',
-
 			rvprop: 'timestamp',
 			inprop: 'url',
 			titles: title,
