@@ -133,18 +133,6 @@ class PopupsContext {
 	}
 
 	/**
-	 * @return bool
-	 */
-	public function areDependenciesMet() {
-		if ( $this->config->get( 'PopupsGateway' ) === 'mwApiPlain' ) {
-			return $this->extensionRegistry->isLoaded( 'TextExtracts' )
-			&& $this->extensionRegistry->isLoaded( 'PageImages' );
-		}
-
-		return true;
-	}
-
-	/**
 	 * Whether popups code should be shipped to $title
 	 *
 	 * For example, if 'Special:UserLogin' is excluded, and the user is on 'Special:UserLogin',

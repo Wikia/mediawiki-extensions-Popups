@@ -147,12 +147,6 @@ class PopupsHooks implements
 			return;
 		}
 
-		if ( !$this->popupsContext->areDependenciesMet() ) {
-			$this->logger->error( 'Popups requires the PageImages extensions.
-				TextExtracts extension is required when using mwApiPlain gateway.' );
-			return;
-		}
-
 		$out->addModules( [ 'ext.popups' ] );
 	}
 
