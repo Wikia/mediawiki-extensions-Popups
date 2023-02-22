@@ -31,5 +31,5 @@ export default function isPagePreviewsEnabled( user, userSettings, config ) {
 	}
 
 	// Registered users never can enable popup types at run-time.
-	return mw.user.options.get( 'popups' ) === '1' ? true : null;
+	return Number( mw.user.options.get( 'popups' ) ) === 1 ? true : null;
 }
